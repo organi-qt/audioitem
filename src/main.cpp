@@ -1,11 +1,15 @@
+#include <QGuiApplication>
+
 #include <audioitem.h>
 
-int main()
+int main(int argc, char *argv[])
 {
+    QGuiApplication app(argc, argv);
+
     AudioItem audioItem;
 
-    audioItem.setAudio("/home/root/music.mp3");
-
+    audioItem.setAudio("/home/root/music.wav");
     audioItem.play();
-    return 0;
+
+    return app.exec();
 }

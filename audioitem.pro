@@ -1,22 +1,18 @@
-# QT Modules
-QT += qml quick
-
 # Target
+TEMPLATE = lib
+CONFIG += plugin
 TARGET = audioitem
-TEMPLATE = app
-
-CONFIG(release, debug|release) {
-#    DEFINES += QT_NO_DEBUG_OUTPUT
-}
+LIBS += -lasound -lmpg123
 
 # Include Path
 INCLUDEPATH += src
 HEADERS += \
-    src/audioitem.h
+    src/audioitem.h \
+    src/mpgdecoder.h
 
 SOURCES += \
-    src/main.cpp \
-    src/audioitem.cpp
+    src/audioitem.cpp \
+    src/mpgdecoder.cpp
 
 # Objects Pathes
 DESTDIR = bin

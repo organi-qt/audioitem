@@ -5,4 +5,10 @@ bin/
 build/
 Makefile
 cscope.out
-ctags
+tags
+example/*~
+example/*.wap
+example/*.user
+example/bin/
+example/build/
+example/Makefile
