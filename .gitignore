@@ -1,0 +1,8 @@
+*~
+*.wap
+*.user
+bin/
+build/
+Makefile
+cscope.out
+ctags
