@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-#include <../src/audioitem.h>
+#include <AudioItem/audioitem.h>
 
 class Audio: public QObject
 {

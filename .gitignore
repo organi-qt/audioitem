@@ -1,9 +1,14 @@
 *~
 *.wap
 *.user
-bin/
-build/
+lib/
+include/
 Makefile
+.qmake.cache
+mkspecs/
+src/audioitem/.moc/
+src/audioitem/.obj/
+src/audioitem/.pch/
 cscope.out
 tags
 example/*~
