@@ -14,6 +14,13 @@ SOURCES += \
     src/audioitem.cpp \
     src/mpgdecoder.cpp
 
+headers.files = $$HEADERS
+headers.path = $$[QT_INSTALL_HEADERS]/AudioItem
+INSTALLS += headers
+
+target.path = $$[QT_INSTALL_PLUGINS]/../lib
+INSTALLS    += target
+
 # Objects Pathes
 DESTDIR = bin
 UI_DIR = build

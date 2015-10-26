@@ -4,7 +4,7 @@ QT += qml quick
 # Target
 TARGET = audio
 TEMPLATE = app
-LIBS += -L"../bin" -laudioitem
+LIBS += -laudioitem
 
 # Include Path
 HEADERS += audio.h

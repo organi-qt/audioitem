@@ -4,6 +4,7 @@
 		2. compile audioitem lib:
 			cp source dir
 			qmake && make distclean && qmake && make
+			make install
 		3. compile example
 			cd example dir
 			qmake && make distclean && qmake && make
