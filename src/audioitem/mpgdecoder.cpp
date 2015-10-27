@@ -29,6 +29,8 @@ MpgDecoder::MpgDecoder(const int &nBuffers, QObject *parent)
     m_rate = m_channels = m_encoding = 0;
 
     m_buffer = new unsigned char*[nBuffers];
+
+    qRegisterMetaType<State>("State");
 }
 
 MpgDecoder::~MpgDecoder()
@@ -73,18 +75,26 @@ void MpgDecoder::setAudio(const QString &audioPath)
     initPcmDevice();
 }
 
+void MpgDecoder::setState(State state)
+{
+    if (m_state != state) {
+        m_state = state;
+        emit stateChanged(m_state);
+    }
+}
+
 void MpgDecoder::startDecode()
 {
     if (!m_hMPG123) return ;
 
-    m_decode = true;
+    setState(PlayingState);
 
     for (int i = 0; i < m_nBuffers; ++i)
         m_buffer[i] = new unsigned char[m_outputBufferSize];
 
     int bytes, buffer_size;
     size_t decoded_bytes;
-    for (int index = 0; m_decode; /*empty*/)
+    for (int index = 0; m_state == PlayingState; /*empty*/)
     {
         snd_pcm_wait(m_hPCM, 1000);
 
@@ -94,7 +104,7 @@ void MpgDecoder::startDecode()
         mpg123_read(m_hMPG123, m_buffer[index], buffer_size, &decoded_bytes);
 
         if(decoded_bytes == 0){
-            m_decode = false;
+            setState(StoppedState);
             return ;
         }
 
@@ -106,8 +116,7 @@ void MpgDecoder::startDecode()
 
 void MpgDecoder::stopDecode()
 {
-    m_decode = false;
-
+    setState(StoppedState);
     closePcmDevice();
 
     for (int i = 0; i < m_nBuffers; ++i)

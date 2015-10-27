@@ -1,18 +1,9 @@
-	compile and test on pc:
+	compile and test example for board:
 		1. install dependence:
-			sudo apt-get install libmpg123-dev libasound2-dev
-		2. compile audioitem lib:
-			cp source dir
-			qmake && make distclean && qmake && make
-			make install
-		3. compile example
-			cd example dir
-			qmake && make distclean && qmake && make
-
-	compile and test for board:
-		1. install dependence:
+			opkg -o $OECORE_TARGET_SYSROOT -f $OECORE_TARGET_SYSROOT/etc/opkg.conf update
 			opkg -o $OECORE_TARGET_SYSROOT -f $OECORE_TARGET_SYSROOT/etc/opkg.conf install mpg123-dev
 			opkg -o $OECORE_TARGET_SYSROOT -f $OECORE_TARGET_SYSROOT/etc/opkg.conf install alsa-lib-dev
+			opkg -o $OECORE_TARGET_SYSROOT -f $OECORE_TARGET_SYSROOT/etc/opkg.conf install libaudioitem-dev
 		2. compile audioitem lib:
 			cp source dir
 			qmake && make distclean && qmake && make
