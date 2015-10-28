@@ -1,16 +1,12 @@
 # QT Modules
-QT += qml quick audioitem
+QT += qml quick
 
 # Target
 TARGET = audio
 TEMPLATE = app
 
-# Include Path
-HEADERS += audio.h
-
 SOURCES += \
-    main.cpp \
-    audio.cpp
+    main.cpp
 
 OTHER_FILES += \
     main.qml

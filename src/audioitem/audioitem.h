@@ -1,33 +1,19 @@
 #ifndef AUDIOITEM_H
 #define AUDIOITEM_H
 
-#include <QObject>
 #include <QThread>
-#include <QtPlugin>
 #include <QMetaType>
-#include <qglobal.h>
+#include <QQuickItem>
 
 #include "mpgdecoder.h"
 
-#define QtPluginAudioItem_iid "org.qt-project.Qt.PluginAudioItem"
-
-class AudioItemInterface
-{
-public:
-        virtual ~AudioItemInterface(){}
-};
-
-Q_DECLARE_INTERFACE (AudioItemInterface, QtPluginAudioItem_iid);
-
-class Q_DECL_EXPORT AudioItem : public QObject, public AudioItemInterface
+class AudioItem : public QQuickItem
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID QtPluginAudioItem_iid)
-    Q_INTERFACES(AudioItemInterface)
     Q_ENUMS(State)
 
 public:
-    explicit AudioItem(QObject *parent = 0);
+    explicit AudioItem(QQuickItem *parent = 0);
     ~AudioItem();
 
     void play();

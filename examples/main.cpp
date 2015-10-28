@@ -5,14 +5,9 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
-#include "audio.h"
-
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
-
-    Audio audio;
-    Q_UNUSED(audio);
 
     QQuickView viewer;
     viewer.setSource(QUrl("qrc:/main.qml"));

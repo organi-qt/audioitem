@@ -1,11 +1,19 @@
-QT = core
+TARGET = audioitemqmlplugin
+TARGETPATH = AudioItem
 
-include($$PWD/audioitem-lib.pri)
+QT += qml quick
 
-load(qt_build_config)
+HEADERS += \
+    audioitem.h \
+    mpgdecoder.h \
+    audioitemqmlplugin.h
 
-TARGET = AudioItem
+SOURCES += \
+    audioitem.cpp \
+    mpgdecoder.cpp \
+    audioitemqmlplugin.cpp
 
-load(qt_module)
+CONFIG += link_pkgconfig
+PKGCONFIG += libmpg123 alsa
 
-LIBS += -lasound -lmpg123
+load(qml_plugin)

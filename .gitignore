@@ -2,6 +2,7 @@
 *.wap
 *.user
 lib/
+qml/
 include/
 Makefile
 .qmake.cache
@@ -11,9 +12,9 @@ src/audioitem/.obj/
 src/audioitem/.pch/
 cscope.out
 tags
-example/*~
-example/*.wap
-example/*.user
-example/bin/
-example/build/
-example/Makefile
+examples/*~
+examples/*.wap
+examples/*.user
+examples/bin/
+examples/build/
+examples/Makefile

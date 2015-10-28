@@ -10,8 +10,8 @@
 
 #include "audioitem.h"
 
-AudioItem::AudioItem(QObject *parent)
-    :QObject(parent),m_state(StoppedState),m_mpgDecoder(0)
+AudioItem::AudioItem(QQuickItem *parent)
+    :QQuickItem(parent),m_state(StoppedState),m_mpgDecoder(0)
 {
     setVolume(100);
 
