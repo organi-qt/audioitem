@@ -18,5 +18,8 @@ Rectangle {
         id: audioI
         x: 50
         y: 50
+        audio: "/home/root/music.mp3"
     }
+
+    Component.onCompleted: audioI.play();
 }

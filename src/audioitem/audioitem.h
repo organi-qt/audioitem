@@ -4,21 +4,36 @@
 #include <QThread>
 #include <QMetaType>
 #include <QQuickItem>
+#include <QQmlExtensionPlugin>
 
 #include "mpgdecoder.h"
+
+class AudioItemQmlPlugin: public QQmlExtensionPlugin
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+
+public:
+    void registerTypes(const char *uri);
+};
 
 class AudioItem : public QQuickItem
 {
     Q_OBJECT
+
+    Q_PROPERTY(State state READ state NOTIFY stateChanged)
+    Q_PROPERTY(QString audio READ audio WRITE setAudio NOTIFY audioChanged)
+    Q_PROPERTY(int volume READ volume WRITE setVolume NOTIFY volumeChanged)
+
     Q_ENUMS(State)
 
 public:
     explicit AudioItem(QQuickItem *parent = 0);
     ~AudioItem();
 
-    void play();
-    void stop();
-    void pause();
+    Q_INVOKABLE void play();
+    Q_INVOKABLE void stop();
+    Q_INVOKABLE void pause();
 
     void setAudio(const QString &audioPath);
     QString audio() {return m_audio;}
@@ -26,7 +41,7 @@ public:
     void setVolume(int volume);
     unsigned volume() {return m_volume;}
 
-    enum State {    // play state
+    enum State {
         StoppedState,
         PlayingState,
         PausedState
@@ -42,9 +57,10 @@ signals:
     void stateChanged(State);
 
 public slots:
-    void setState(State state);
+    void setDecState(DecState decState);
 
 private:
+    void setState(State state);
 
     int m_volume;
     State m_state;

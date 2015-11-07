@@ -1,17 +1,17 @@
+QT += qml quick
+
 TARGET = audioitemqmlplugin
 TARGETPATH = AudioItem
 
-QT += qml quick
+INCLUDEPATH += $$PWD
 
 HEADERS += \
     audioitem.h \
-    mpgdecoder.h \
-    audioitemqmlplugin.h
+    mpgdecoder.h
 
 SOURCES += \
     audioitem.cpp \
-    mpgdecoder.cpp \
-    audioitemqmlplugin.cpp
+    mpgdecoder.cpp
 
 CONFIG += link_pkgconfig
 PKGCONFIG += libmpg123 alsa

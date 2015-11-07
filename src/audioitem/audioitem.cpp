@@ -1,6 +1,5 @@
 #include <QDebug>
 #include <QString>
-#include <QProcess>
 
 #include <fcntl.h>
 #include <unistd.h>
@@ -10,29 +9,56 @@
 
 #include "audioitem.h"
 
+void AudioItemQmlPlugin::registerTypes(const char *uri)
+{
+    Q_UNUSED(uri);
+    Q_ASSERT(uri == QLatin1String("AudioItem"));
+    qmlRegisterType<AudioItem>("AudioItem", 1, 1, "AudioItem");
+}
+
+
 AudioItem::AudioItem(QQuickItem *parent)
     :QQuickItem(parent),m_state(StoppedState),m_mpgDecoder(0)
 {
     setVolume(100);
-
     qRegisterMetaType<State>("State");
 
     m_decoderThread = new QThread(this);
 
-    m_mpgDecoder = new MpgDecoder(4);
+    m_mpgDecoder = new MpgDecoder(4, 0); // it's parent must be 0
     m_mpgDecoder->moveToThread(m_decoderThread);
     connect(this, SIGNAL(playChanged()), m_mpgDecoder, SLOT(startDecode()));
     connect(this, SIGNAL(stopChanged()), m_mpgDecoder, SLOT(stopDecode()));
     connect(this, SIGNAL(pauseChanged()), m_mpgDecoder, SLOT(pauseDecode()));
 
-    connect(m_mpgDecoder, SIGNAL(stateChanged(State)), this, SLOT(setState(State)));
+    connect(m_mpgDecoder, SIGNAL(decStateChanged(DecState)), this, SLOT(setDecState(DecState)));
     connect(this, SIGNAL(audioChanged(const QString &)), m_mpgDecoder, SLOT(setAudio(const QString &)));
     m_decoderThread->start();
 }
 
 AudioItem::~AudioItem()
 {
-    delete m_mpgDecoder;
+    if (!m_mpgDecoder) {
+        delete m_mpgDecoder;
+        m_mpgDecoder = 0;
+    }
+}
+
+void AudioItem::setDecState(DecState decState)
+{
+    switch (decState) {
+    case DecStoppedState:
+        setState(StoppedState);
+        break;
+    case DecPlayingState:
+        setState(PlayingState);
+        break;
+    case DecPausedState:
+        setState(PausedState);
+        break;
+    default:
+        break;
+    }
 }
 
 void AudioItem::setState(State state)
@@ -58,7 +84,7 @@ void AudioItem::stop()
 void AudioItem::pause()
 {
     emit pauseChanged();
-    setState(StoppedState);
+    setState(PausedState);
 }
 
 void AudioItem::setAudio(const QString &audioPath)

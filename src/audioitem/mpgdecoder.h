@@ -1,5 +1,5 @@
-#ifndef _MPGDECODER_H
-#define _MPGDECODER_H
+#ifndef MPGDECODER_H
+#define MPGDECODER_H
 
 #include <QObject>
 #include <QString>
@@ -7,6 +7,19 @@
 
 #include <mpg123.h>
 #include <alsa/asoundlib.h>
+
+enum DecState {
+    DecStoppedState,
+    DecPlayingState,
+    DecPausedState
+};
+
+static void qRegisterMediaPlayerMetaTypes()
+{
+    qRegisterMetaType<DecState>("DecState");
+}
+Q_CONSTRUCTOR_FUNCTION(qRegisterMediaPlayerMetaTypes)
+
 
 class MpgDecoder: public QObject
 {
@@ -16,28 +29,23 @@ public:
     MpgDecoder(const int &nBuffers = 4, QObject *parent = 0);
     ~MpgDecoder();
 
-    Q_ENUMS(State)
-
-public:
-    enum State {    // play state
-        StoppedState,
-        PlayingState,
-        PausedState
-    };
-
 public slots:
     void stopDecode();
     void startDecode();
-    void pauseDecode(){} // unuseded now
-    void setAudio(const QString &audioPath);
+    void pauseDecode();
+    void setAudio(const QString &audio);
 
 signals:
-    void stateChanged(State);
+    void audioChanged(QString);
+    void decStateChanged(DecState);
 
 private:
     // this function must be private
-    void setState(State state);
-    State m_state;
+    void decode();
+
+    // this function must be private
+    void setDecState(DecState state);
+    DecState m_DecState;
 
     long m_rate;
     int m_channels, m_encoding;
@@ -49,7 +57,12 @@ private:
     snd_pcm_t *m_hPCM;
     int m_outputBufferSize;
 
-    bool initPcmDevice();
+    QString m_audio;
+
+    void initMpg123();
+    void closeMpg123();
+
+    void initPcmDevice();
     void closePcmDevice();
     int writePcmDevice(unsigned char *buf, int bytes);
 };
