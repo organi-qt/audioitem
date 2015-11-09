@@ -1,4 +1,5 @@
 #include <QDebug>
+#include <QFileInfo>
 #include <QCoreApplication>
 
 #include "mpgdecoder.h"
@@ -136,6 +137,15 @@ void MpgDecoder::decode()
 
 void MpgDecoder::startDecode()
 {
+    if (m_audio.isEmpty()) {
+        qWarning() << "Audio path cannot empty!\n";
+        return ;
+    }
+    else if (!QFileInfo::exists(m_audio)) {
+        qWarning() << "No such audio!\n";
+        return ;
+    }
+
     if (m_DecState == DecPlayingState) return ;
     else if (m_DecState == DecPausedState) {
         setDecState(DecPlayingState);
@@ -155,8 +165,9 @@ void MpgDecoder::stopDecode()
 
 void MpgDecoder::pauseDecode()
 {
-    if (m_DecState == DecPausedState) return ;
-    else setDecState(DecPausedState);
+    if (m_DecState == DecPlayingState) {
+        setDecState(DecPausedState);
+    }
 }
 
 void MpgDecoder::initPcmDevice()

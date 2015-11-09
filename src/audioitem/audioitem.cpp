@@ -87,6 +87,13 @@ void AudioItem::pause()
     setState(PausedState);
 }
 
+void AudioItem::play(const QString &audioPath)
+{
+    stop();
+    setAudio(audioPath);
+    play();
+}
+
 void AudioItem::setAudio(const QString &audioPath)
 {
     if (m_audio != audioPath) {

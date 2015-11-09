@@ -34,6 +34,7 @@ public:
     Q_INVOKABLE void play();
     Q_INVOKABLE void stop();
     Q_INVOKABLE void pause();
+    Q_INVOKABLE void play(const QString &audioPath);
 
     void setAudio(const QString &audioPath);
     QString audio() {return m_audio;}
