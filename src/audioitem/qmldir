@@ -1,2 +1,3 @@
 module AudioItem
 plugin declarative_audioitemqmlplugin
+classname AudioItemQmlPlugin
